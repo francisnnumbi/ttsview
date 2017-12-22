@@ -1,36 +1,32 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
 apply plugin: 'maven'
 group= 'com.github.francisnnumbi'
 
-sourceCompatibility = 1.7 // java 8
-targetCompatibility = 1.7
-repositories {
-mavenCentral()
-}
+android {
+    compileSdkVersion 21
+    buildToolsVersion "21.1.0"
 
-task sourcesJar( type : Jar, dependsOn : classes) {
-classifier = 'sources'
-from sourceSets . main .allSource
+    defaultConfig {
+        applicationId "fnn.smirl.ttsview"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode 1
+        versionName "1.0"
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
 }
-task javadocJar( type : Jar, dependsOn : javadoc) {
-classifier = 'javadoc'
-from javadoc .destinationDir
+buildscript{
+	dependencies{
+		classpath 'com.github.dcendents:android-maven-gradle-plugin:2.0'
+	}
 }
-artifacts {
-archives sourcesJar
-archives javadocJar
-}
-// To specify a license in the pom:
-install {
-repositories . mavenInstaller {
-pom . project {
-licenses {
-license {
-name 'The Apache Software License, Version 2.0'
-url 'http://www.apache.org/licenses/LICENSE-2.0.txt'
-distribution 'repo'
-}
-}
-}
-}
+dependencies {
+	
+    compile fileTree(dir: 'libs', include: ['*.jar'])
 }
